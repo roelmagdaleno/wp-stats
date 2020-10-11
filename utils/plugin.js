@@ -35,14 +35,14 @@ module.exports = {
         };
     },
     renderTable: (response, flags) => {
-        const head = getTableHead(flags.fields);
+        const head = getTableHead(flags);
         const table = new Table({
             head,
             style: { head: [], border: [] },
         });
 
         let plugins = response.data.plugins ? response.data.plugins : [response.data];
-        plugins.map(plugin => table.push(tableData(plugin, flags.fields)));
+        plugins.map(plugin => table.push(tableData(plugin, flags)));
 
         console.log(table.toString());
     }

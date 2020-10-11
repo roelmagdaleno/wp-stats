@@ -14,7 +14,7 @@ const fields = {
     version: 'Version'
 };
 
-const defaultFields = [
+let defaultFields = [
     'name', 'slug', 'version',
     'downloaded', 'active_installs'
 ];
@@ -36,7 +36,27 @@ const formatField = (field, value) => {
 
     return value;
 };
-const getTableFields = (flagFields) => {
+const withoutNoFields = (noFields) => {
+    for ( let i = 0; i < noFields.length; i++ ) {
+        let fieldPos = defaultFields.indexOf(noFields[i]);
+
+        if (fieldPos === -1) {
+            continue;
+        }
+
+        defaultFields.splice(fieldPos, 1);
+    }
+
+    return defaultFields;
+};
+const getTableFields = (flags) => {
+    const flagFields = flags.fields;
+    const noFields = flags.noFields;
+
+    if (noFields) {
+        defaultFields = withoutNoFields(noFields.split(','));
+    }
+
     return flagFields ? defaultFields.concat(flagFields.split(',')) : defaultFields;
 };
 
@@ -49,9 +69,9 @@ module.exports = {
         const validCommands = ['plugin', 'theme'];
         return validCommands.includes(input[0]);
     },
-    getTableHead: (flagFields) => getTableFields(flagFields).map(field => fields[field]),
-    tableData: (plugin, flagFields) => {
-        const tableFields = getTableFields(flagFields);
+    getTableHead: (flags) => getTableFields(flags).map(field => fields[field]),
+    tableData: (plugin, flags) => {
+        const tableFields = getTableFields(flags);
         const totalFields = tableFields.length;
         const orderTable = [];
 
