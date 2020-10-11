@@ -14,8 +14,7 @@ const flags = {
     },
     per_page: {
         type: 'number',
-        default: 10,
-        desc: ''
+        default: 10
     }
 };
 
