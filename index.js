@@ -4,7 +4,7 @@ const cli = require('./utils/cli.js');
 const welcome = require('cli-welcome');
 const ora = require('ora');
 const api = require('./utils/api.js');
-const { isValidCommand } = require('./utils/helpers.js');
+const { isValidCommand, getCommand } = require('./utils/helpers.js');
 
 (async () => {
     welcome({
@@ -21,12 +21,12 @@ const { isValidCommand } = require('./utils/helpers.js');
         return;
     }
 
-    const command = cli.input[0];
-    const spinner = ora(`Loading ${command}s data...`);
+    const command = getCommand(cli.input[0]);
+    const spinner = ora(`Loading ${command} data...`);
     spinner.start();
 
-    await api.run(api[command].params(cli.flags)).then((response) => {
+    await api.run(api.params(command, cli.flags)).then((response) => {
         spinner.stop();
-        api[command].renderTable(response, cli.flags);
+        api.renderTable(command, response, cli.flags);
     });
 })();

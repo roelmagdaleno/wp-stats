@@ -66,11 +66,14 @@ module.exports = {
             return false;
         }
 
-        const validCommands = ['plugin', 'theme'];
+        const validCommands = ['plugin', 'plugins', 'theme', 'themes'];
         return validCommands.includes(input[0]);
     },
+    getCommand: (rawCommand) => {
+        return rawCommand.substring(rawCommand.length - 1) === 's' ? rawCommand : `${rawCommand}s`;
+    },
     getTableHead: (flags) => getTableFields(flags).map(field => fields[field]),
-    tableData: (plugin, flags) => {
+    tableData: (item, flags) => {
         const tableFields = getTableFields(flags);
         const totalFields = tableFields.length;
         const orderTable = [];
@@ -78,11 +81,11 @@ module.exports = {
         for ( let i = 0; i < totalFields; i++ ) {
             let field = tableFields[i];
 
-            if (!plugin[field]) {
+            if (!item[field]) {
                 continue;
             }
 
-            orderTable.push(formatField(field, plugin[field]));
+            orderTable.push(formatField(field, item[field]));
         }
 
         return orderTable;
