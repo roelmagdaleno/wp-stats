@@ -2,6 +2,8 @@
 
 Track WordPress plugins and themes statistics from the command line.
 
+![](https://i.imgur.com/WUuSsZx.png)
+
 ## Install
 
 ```
