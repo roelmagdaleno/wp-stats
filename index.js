@@ -3,6 +3,7 @@
 const cli = require('./utils/cli.js');
 const welcome = require('cli-welcome');
 const ora = require('ora');
+const { blue, red } = require('chalk');
 const api = require('./utils/api.js');
 const { isValidCommand, getCommand } = require('./utils/helpers.js');
 
@@ -11,13 +12,11 @@ const { isValidCommand, getCommand } = require('./utils/helpers.js');
         title: 'wp-stats',
         tagLine: 'by Roel Magdaleno',
         description: cli.pkg.description,
-        bold: true,
-        clear: true,
         version: cli.pkg.version
     });
 
     if (!isValidCommand(cli.input)) {
-        console.log('You must specify a valid command. Type "wp-stats --help" to see examples.');
+        console.log(`${blue('You must specify a valid command. Type "wp-stats --help" to see examples.')}`);
         return;
     }
 
@@ -25,8 +24,13 @@ const { isValidCommand, getCommand } = require('./utils/helpers.js');
     const spinner = ora(`Loading ${command} data...`);
     spinner.start();
 
-    await api.run(api.params(command, cli.flags)).then((response) => {
-        spinner.stop();
-        api.renderTable(command, response, cli.flags);
-    });
+    await api.run(api.params(command, cli.flags))
+        .then((response) => {
+            spinner.stop();
+            api.renderTable(command, response, cli.flags);
+        })
+        .catch((error) => {
+            spinner.stop();
+            console.log(`${red(`Error: ${error.response.data.error}`)}`)
+        });
 })();

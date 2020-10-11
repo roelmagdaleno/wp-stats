@@ -23,6 +23,7 @@
     "homepage": "https://github.com/roelmagdaleno/wp-stats#readme",
     "dependencies": {
         "axios": "^0.20.0",
+        "chalk": "^4.1.0",
         "cli-table3": "^0.6.0",
         "cli-welcome": "^2.2.2",
         "he": "^1.2.0",

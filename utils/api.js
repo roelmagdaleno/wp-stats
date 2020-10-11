@@ -1,6 +1,7 @@
 const axios = require('axios');
 const qs = require('qs');
 const Table = require('cli-table3');
+const { red } = require('chalk');
 const {
     getTableHead,
     tableData
@@ -44,8 +45,13 @@ module.exports = {
         });
 
         let items = response.data[command] ? response.data[command] : [response.data];
-        items.map(item => table.push(tableData(item, flags)));
 
+        if (items.length === 0) {
+            console.log(`${red(`Error: No ${command} found.`)}`);
+            return;
+        }
+
+        items.map(item => table.push(tableData(item, flags)));
         console.log(table.toString());
     },
     /**
