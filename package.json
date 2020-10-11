@@ -1,0 +1,33 @@
+{
+    "name": "wp-stats",
+    "version": "1.0.0",
+    "description": "Track WordPress plugins and themes statistics from the command line.",
+    "main": "index.js",
+    "bin": {
+        "wp-stats": "./index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/roelmagdaleno/wp-stats.git"
+    },
+    "keywords": [
+        "wordpress",
+        "wp",
+        "stats"
+    ],
+    "author": "Roel Magdaleno",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/roelmagdaleno/wp-stats/issues"
+    },
+    "homepage": "https://github.com/roelmagdaleno/wp-stats#readme",
+    "dependencies": {
+        "axios": "^0.20.0",
+        "cli-table3": "^0.6.0",
+        "cli-welcome": "^2.2.2",
+        "he": "^1.2.0",
+        "meow": "^7.1.1",
+        "ora": "^5.1.0",
+        "qs": "^6.9.4"
+    }
+}
