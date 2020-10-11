@@ -41,7 +41,7 @@ module.exports = {
             style: { head: [], border: [] },
         });
 
-        let plugins = Array.isArray(response.data) ? response.data.plugins : [response.data];
+        let plugins = response.data.plugins ? response.data.plugins : [response.data];
         plugins.map(plugin => table.push(tableData(plugin, flags.fields)));
 
         console.log(table.toString());
