@@ -1,13 +1,22 @@
 const Table = require('cli-table3');
-const he = require('he');
-const { numberFormat } = require('./helpers.js');
+const {
+    getTableHead,
+    tableData
+} = require('./helpers.js');
 
 module.exports = {
     params: (flags) => {
         const params = {
             action: 'query_plugins',
             request: {
-                per_page: 10
+                per_page: flags.perPage,
+                fields: {
+                    name: true,
+                    slug: true,
+                    version: true,
+                    active_installs: true,
+                    downloaded: true
+                }
             }
         };
 
@@ -15,32 +24,25 @@ module.exports = {
             params.request.author = flags.author;
         }
 
+        if (flags.slug) {
+            params.action = 'plugin_information';
+            params.request.slug = flags.slug;
+        }
+
         return {
             url: 'https://api.wordpress.org/plugins/info/1.2/',
-            type: 'plugins',
             params
         };
     },
-    renderTable: (response) => {
-        const head = [
-            'Name', 'Slug', 'Version',
-            'Downloaded', 'Active Installs'
-        ];
-
+    renderTable: (response, flags) => {
+        const head = getTableHead(flags.fields);
         const table = new Table({
             head,
             style: { head: [], border: [] },
         });
 
-        response.data.plugins.map(plugin => {
-            table.push([
-                he.decode(plugin.name),
-                plugin.slug,
-                plugin.version,
-                numberFormat(plugin.downloaded),
-                numberFormat(plugin.active_installs)
-            ]);
-        });
+        let plugins = Array.isArray(response.data) ? response.data.plugins : [response.data];
+        plugins.map(plugin => table.push(tableData(plugin, flags.fields)));
 
         console.log(table.toString());
     }

@@ -27,6 +27,6 @@ const { isValidCommand } = require('./utils/helpers.js');
 
     await api.run(api[command].params(cli.flags)).then((response) => {
         spinner.stop();
-        api[command].renderTable(response);
+        api[command].renderTable(response, cli.flags);
     });
 })();
