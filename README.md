@@ -7,7 +7,7 @@ Track WordPress plugins and themes statistics from the command line.
 ## Install
 
 ```
-$ npm install wp-stats
+$ npm install -g wp-stats
 ```
 
 ## Commands
